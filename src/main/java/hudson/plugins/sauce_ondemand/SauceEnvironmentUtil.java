@@ -41,12 +41,12 @@ public final class SauceEnvironmentUtil {
     /**
      * Adds the environment variables for the selected Appium browsers.
      *
-     * @param env      the map of environment variables
-     * @param browsers the list of selected browsers
-     * @param userName the Sauce user name
-     * @param apiKey   the Sauce access key
-     * @param verboseLogging    Enable/Disable verbose logging of env variables
-     * @param logger Where to log if necessary
+     * @param env            the map of environment variables
+     * @param browsers       the list of selected browsers
+     * @param userName       the Sauce user name
+     * @param apiKey         the Sauce access key
+     * @param verboseLogging Enable/Disable verbose logging of env variables
+     * @param logger         Where to log if necessary
      */
     public static void outputVariables(Map<String, String> env, List<Browser> browsers, String userName, String apiKey, boolean verboseLogging, PrintStream logger) {
 
@@ -61,7 +61,28 @@ public final class SauceEnvironmentUtil {
 
                 browserAsJSON(browsersJSON, browserInstance, userName, apiKey);
                 //output SELENIUM_DRIVER for the first browser so that the Selenium Client Factory picks up a valid uri pattern
-                outputEnvironmentVariable(env, SauceOnDemandBuildWrapper.SELENIUM_DRIVER, browserInstance.getUri(userName, apiKey), verboseLogging, logger);
+
+
+                try {
+                    System.out.println("env is " + env);
+                    System.out.println("Driver is " + SauceOnDemandBuildWrapper.SELENIUM_DRIVER);
+                    System.out.println("browserInstance.getUri is " + browserInstance.getUri(userName, apiKey));
+                    System.out.println("verboseLogging is  " + verboseLogging);
+                    System.out.println("logger is " + logger);
+                    logger.println("env is " + env);
+                    logger.println("Driver is " + SauceOnDemandBuildWrapper.SELENIUM_DRIVER);
+                    logger.println("username is  " + userName);
+                    logger.println("apiKey is : " + apiKey);
+                    logger.println("browserInstance.getUri is " + browserInstance.getUri(userName, apiKey));
+                    logger.println("verboseLogging is  " + verboseLogging);
+                    logger.println("logger is " + logger);
+                    outputEnvironmentVariable(env, SauceOnDemandBuildWrapper.SELENIUM_DRIVER, browserInstance.getUri(userName, apiKey), verboseLogging, logger);
+
+                } catch (Exception e) {
+                    System.out.println("ERROR outputting environment variable");
+                    System.out.println(e);
+                    e.printStackTrace();
+                }
             }
             outputEnvironmentVariable(env, SauceOnDemandBuildWrapper.SAUCE_ONDEMAND_BROWSERS, browsersJSON.toString(), verboseLogging, logger);
 
@@ -107,12 +128,12 @@ public final class SauceEnvironmentUtil {
     /**
      * Adds the environment variables for the selected browser.
      *
-     * @param env      the map of environment variables
-     * @param browserInstance   FIXME
-     * @param userName the Sauce user name
-     * @param apiKey   the Sauce access key
-     * @param verboseLogging    Enable/Disable verbose logging of env variables
-     * @param printStream Where to log if necessary
+     * @param env             the map of environment variables
+     * @param browserInstance FIXME
+     * @param userName        the Sauce user name
+     * @param apiKey          the Sauce access key
+     * @param verboseLogging  Enable/Disable verbose logging of env variables
+     * @param printStream     Where to log if necessary
      */
     public static void outputEnvironmentVariablesForBrowser(Map<String, String> env, Browser browserInstance, String userName, String apiKey, boolean verboseLogging, PrintStream printStream) {
         outputEnvironmentVariablesForBrowser(env, browserInstance, userName, apiKey, false, verboseLogging, printStream);
@@ -121,13 +142,13 @@ public final class SauceEnvironmentUtil {
     /**
      * Adds the environment variables for the selected browser.
      *
-     * @param env       the map of environment variables
-     * @param browserInstance    FIXME
-     * @param userName  the Sauce user name
-     * @param apiKey    the Sauce access key
-     * @param overwrite indicates whether existing environment variables should be overwritten
-     * @param verboseLogging    Enable/Disable verbose logging of env variables
-     * @param printStream Where to log if necessary
+     * @param env             the map of environment variables
+     * @param browserInstance FIXME
+     * @param userName        the Sauce user name
+     * @param apiKey          the Sauce access key
+     * @param overwrite       indicates whether existing environment variables should be overwritten
+     * @param verboseLogging  Enable/Disable verbose logging of env variables
+     * @param printStream     Where to log if necessary
      */
     public static void outputEnvironmentVariablesForBrowser(Map<String, String> env, Browser browserInstance, String userName, String apiKey, boolean overwrite, boolean verboseLogging, PrintStream printStream) {
 
@@ -153,11 +174,11 @@ public final class SauceEnvironmentUtil {
     /**
      * Adds the key/value pair to the map of environment variables.
      *
-     * @param env   the map of environment variables
-     * @param key   environment variable key
-     * @param value environment variable value
-     * @param verboseLogging    Enable/Disable verbose logging of env variables
-     * @param printStream Where to log if necessary
+     * @param env            the map of environment variables
+     * @param key            environment variable key
+     * @param value          environment variable value
+     * @param verboseLogging Enable/Disable verbose logging of env variables
+     * @param printStream    Where to log if necessary
      */
     public static void outputEnvironmentVariable(Map<String, String> env, String key, String value, boolean verboseLogging, PrintStream printStream) {
         outputEnvironmentVariable(env, key, value, false, verboseLogging, printStream);
@@ -166,12 +187,12 @@ public final class SauceEnvironmentUtil {
     /**
      * Adds the key/value pair to the map of environment variables.
      *
-     * @param env       the map of environment variables
-     * @param key       environment variable key
-     * @param value     environment variable value
-     * @param overwrite indicates whether existing environment variables should be overwritten
-     * @param verboseLogging    Enable/Disable verbose logging of env variables
-     * @param printStream Where to log if necessary
+     * @param env            the map of environment variables
+     * @param key            environment variable key
+     * @param value          environment variable value
+     * @param overwrite      indicates whether existing environment variables should be overwritten
+     * @param verboseLogging Enable/Disable verbose logging of env variables
+     * @param printStream    Where to log if necessary
      */
     public static void outputEnvironmentVariable(Map<String, String> env, String key, String value, boolean overwrite, boolean verboseLogging, PrintStream printStream) {
         if (env.get(key) == null || overwrite) {
@@ -180,8 +201,7 @@ public final class SauceEnvironmentUtil {
                 environmentVariablePrefix = "";
             }
             env.put(environmentVariablePrefix + key, value);
-            if (verboseLogging)
-            {
+            if (verboseLogging) {
                 printStream.println(environmentVariablePrefix + key + ": " + value);
             }
         }
@@ -205,7 +225,6 @@ public final class SauceEnvironmentUtil {
     }
 
     /**
-     *
      * @param build the Jenkins build
      * @return String representing the Jenkins build
      */
