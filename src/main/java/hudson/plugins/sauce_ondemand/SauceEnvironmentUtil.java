@@ -57,6 +57,7 @@ public final class SauceEnvironmentUtil {
             }
 
             JSONArray browsersJSON = new JSONArray();
+
             for (Browser browserInstance : browsers) {
 
                 browserAsJSON(browsersJSON, browserInstance, userName, apiKey);
@@ -64,23 +65,20 @@ public final class SauceEnvironmentUtil {
 
 
                 try {
-                    System.out.println("env is " + env);
-                    System.out.println("Driver is " + SauceOnDemandBuildWrapper.SELENIUM_DRIVER);
-                    System.out.println("browserInstance.getUri is " + browserInstance.getUri(userName, apiKey));
-                    System.out.println("verboseLogging is  " + verboseLogging);
-                    System.out.println("logger is " + logger);
+
                     logger.println("env is " + env);
                     logger.println("Driver is " + SauceOnDemandBuildWrapper.SELENIUM_DRIVER);
                     logger.println("username is  " + userName);
                     logger.println("apiKey is : " + apiKey);
+                    logger.println("browserInstance " + browserInstance);
                     logger.println("browserInstance.getUri is " + browserInstance.getUri(userName, apiKey));
                     logger.println("verboseLogging is  " + verboseLogging);
                     logger.println("logger is " + logger);
                     outputEnvironmentVariable(env, SauceOnDemandBuildWrapper.SELENIUM_DRIVER, browserInstance.getUri(userName, apiKey), verboseLogging, logger);
 
                 } catch (Exception e) {
-                    System.out.println("ERROR outputting environment variable");
-                    System.out.println(e);
+                    logger.println("ERROR outputting environment variable");
+                    logger.println(e);
                     e.printStackTrace();
                 }
             }

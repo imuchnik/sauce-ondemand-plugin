@@ -20,3 +20,4 @@ test.log
 .idea/
 
 src/main/java/hudson/plugins/sauce_ondemand/BuildUtils.java
+.DS_Store
